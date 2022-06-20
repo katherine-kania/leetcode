@@ -11,20 +11,43 @@
  * @return {ListNode}
  */
 var mergeTwoLists = function(list1, list2) {
-    // if one of the lists are empty return the other
-    if (list1 == null) return list2
-    if (list2 == null) return list1
+    // initialise a new link list with a ListNode
+    let newList = new ListNode(0)
     
-    // if list 1 is lower 
-    if (list1.val < list2.val){
-        list1.next = mergeTwoLists(list1.next, list2)
-        return list1
+    // Maintain a reference to the head of the new linked list
+    let headOfNewList = newList
+    
+    // Whilst both of the passed in lists contain more elements
+    while (list1 != null && list2 != null){
+        // if list1 is smaller
+        if (list1.val < list2.val){
+            // add list1 to the new list
+            newList.next = list1
+            
+            // move list1 to its next element
+            list1 = list1.next
+        } else {
+            // add list2 to the new list 
+            newList.next = list2
+            
+            // move list2 to its next element
+            list2 = list2.next
+        }
+        
+        // move into the next level of the linked list for the next iteration
+        newList = newList.next
     }
     
-    // if list 2 is lower
+    // if list 1 has run out of elements
+    if (list1 == null){
+        // append list 2
+        newList.next = list2
+    }
+    // if list 2 has run out of elements
     else {
-        list2.next = mergeTwoLists(list1, list2.next)
-        return list2
+        // append list 1 to the new list
+        newList.next = list1
     }
+    return headOfNewList.next
         
 };
